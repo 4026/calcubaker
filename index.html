@@ -9,7 +9,10 @@
     <title>Calcubaker</title>
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
     <link rel="stylesheet" href="calcubaker.css">
 
 
@@ -58,8 +61,8 @@
 
 <script type="text/x-template" id="app-template">
     <div class="row">
-        <div class="col-xs-4 col-md-3">
-            <h4>Ingredients</h4>
+        <div class="col-xs-6">
+            <h4><span class="glyphicon glyphicon-grain"></span> Ingredients</h4>
             <form class="form-horizontal">
 
                 <ingredient v-for="(value, name) in selectedRecipe.ingredients"
@@ -76,13 +79,72 @@
             </form>
         </div>
 
+
+        <div class="col-xs-6">
+            <h4><span class="glyphicon glyphicon-hourglass"></span> Prove Time</h4>
+
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="input-temp" class="col-sm-6 control-label">Temperature</label>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <input type="number"
+                                   id="input-temp"
+                                   class="form-control"
+                                   step="0.5"
+                                   max="30"
+                                   min="5"
+                                   v-model="temperature" />
+                            <span class="input-group-addon">&deg;C</span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <hr />
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <p><strong>Fold after:</strong></p>
+                </div>
+                <div class="col-sm-6"><p>{{ foldTime }}</p></div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <p><strong>Shape after:</strong></p>
+                </div>
+                <div class="col-sm-6"><p>{{ shapeTime }}</p></div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <p><strong>Bulk prove for:</strong></p>
+                </div>
+                <div class="col-sm-6"><p>{{ bulkTime }}</p></div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <p><strong>Mix-to-bake time:</strong></p>
+                </div>
+                <div class="col-sm-6"><p>{{ totalTime }}</p></div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <p><strong>If you start now, your dough will be ready to bake:</strong></p>
+                </div>
+                <div class="col-sm-6"><p>{{ bakeAt }}</p></div>
+            </div>
+        </div>
     </div>
 </script>
 
 <script type="text/x-template" id="ingredient-template">
     <div class="form-group">
-        <label :for="inputId" class="col-sm-3 control-label">{{displayName}}</label>
-        <div class="col-sm-9">
+        <label :for="inputId" class="col-sm-6 control-label">{{displayName}}</label>
+        <div class="col-sm-6">
             <div class="input-group">
                 <input type="number"
                        class="form-control"

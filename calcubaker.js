@@ -2,10 +2,31 @@
  * JS for calcubaker app.
  */
 
+function temperatureAdjust(temperature, timeAt30)
+{
+    return timeAt30 / Math.pow(0.95, 30 - temperature)
+}
+
+function breadFromDough(doughWeight)
+{
+    return doughWeight * 0.8;
+}
+
+function formatHours(hours)
+{
+    let h = Math.floor(hours);
+    let m = Math.round((hours - h) * 60);
+    return h + "h " + m + "m";
+}
+
+
 const recipes = [
     {
         name: "Sourdough",
-        ingredients: { flour: 500, water: 330, starter: 25, salt: 10 }
+        ingredients: { flour: 1500, water: 1000, starter: 70, salt: 30 },
+        foldTime: 1,
+        shapeTime: 1,
+        bulkTime: 7
     }
 ];
 
@@ -64,7 +85,8 @@ const app = new Vue({
     template: "#app-template",
     data: {
         selectedRecipe: recipes[0],
-        multiplier: 1
+        multiplier: 1,
+        temperature: 20
     },
     computed: {
         totalWeight: function() {
@@ -75,6 +97,36 @@ const app = new Vue({
                     0
                 )
             );
+        },
+        foldTime : function() {
+            return formatHours(
+                temperatureAdjust(this.temperature, this.selectedRecipe.foldTime)
+            );
+        },
+        shapeTime : function() {
+            return formatHours(
+                temperatureAdjust(this.temperature, this.selectedRecipe.foldTime + this.selectedRecipe.shapeTime)
+            );
+        },
+        bulkTime : function() {
+            return formatHours(
+                temperatureAdjust(this.temperature, this.selectedRecipe.bulkTime)
+            );
+        },
+        totalTime : function() {
+            return formatHours(
+                temperatureAdjust(
+                    this.temperature,
+                    this.selectedRecipe.foldTime + this.selectedRecipe.shapeTime + this.selectedRecipe.bulkTime
+                )
+            );
+        },
+        bakeAt: function() {
+            let hours = temperatureAdjust(
+                this.temperature,
+                this.selectedRecipe.foldTime + this.selectedRecipe.shapeTime + this.selectedRecipe.bulkTime
+            );
+            return moment().add(hours, "hours").calendar();
         }
     }
 });
